@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Assignments | IT Department{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">Database Relationship</p>
+        <h1>Teacher–Subject Assignments</h1>
+        <p>Connect a teacher with a subject so it appears on the subject and teacher pages.</p>
+    </div>
+    <a class="button secondary" href="{{ url_for('admin') }}">← Admin</a>
+</div>
+
+<section class="panel">
+    <div class="panel-head"><h2>New Assignment</h2></div>
+    <form method="post" action="{{ url_for('assign_teacher') }}" class="form inline-form">
+        <label>Teacher
+            <select name="teacher_id" required>
+                <option value="">Select teacher</option>
+                {% for teacher in teachers %}<option value="{{ teacher.id }}">{{ teacher.name }}</option>{% endfor %}
+            </select>
+        </label>
+        <label>Subject
+            <select name="subject_id" required>
+                <option value="">Select subject</option>
+                {% for subject in subjects %}<option value="{{ subject.id }}">{{ subject.name }} — {{ subject.year_name }}</option>{% endfor %}
+            </select>
+        </label>
+        <button class="button" type="submit">Assign</button>
+    </form>
+</section>
+
+<section class="panel">
+    <div class="panel-head"><h2>Current Assignments</h2><span class="count">{{ assignments|length }}</span></div>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Teacher</th><th>Subject</th><th>Type</th><th>Year</th><th></th></tr></thead>
+            <tbody>
+            {% for row in assignments %}
+            <tr>
+                <td>{{ row.teacher_name }}</td>
+                <td>{{ row.subject_name }}</td>
+                <td><span class="badge">{{ row.subject_type }}</span></td>
+                <td>{{ row.year_name }}</td>
+                <td>
+                    <form method="post" action="{{ url_for('unassign_teacher', assignment_id=row.id) }}">
+                        <button class="danger-link" type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="empty">No assignments yet.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ teacher.name }} | IT Department{% endblock %}
+{% block content %}
+<div class="breadcrumb"><a href="{{ url_for('index') }}">Home</a> / Teacher</div>
+
+<section class="profile-card">
+    <div class="big-avatar">{{ teacher.name[0] }}</div>
+    <div>
+        <p class="eyebrow">Teacher Profile</p>
+        <h1>{{ teacher.name }}</h1>
+        <p>{{ teacher.department }}</p>
+        {% if teacher.email %}<p class="muted">Email: {{ teacher.email }}</p>{% endif %}
+        {% if teacher.phone %}<p class="muted">Phone: {{ teacher.phone }}</p>{% endif %}
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-head">
+        <div><h2>Assigned Subjects</h2></div>
+        <span class="count">{{ subjects|length }}</span>
+    </div>
+    {% if subjects %}
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Subject</th><th>Type</th><th>Class</th></tr></thead>
+            <tbody>
+            {% for subject in subjects %}
+                <tr>
+                    <td><a href="{{ url_for('subject_detail', subject_id=subject.id) }}">{{ subject.name }}</a></td>
+                    <td><span class="badge">{{ subject.subject_type }}</span></td>
+                    <td>{{ subject.year_name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="empty">No subject assignment has been added for this teacher yet.</p>
+    {% endif %}
+</section>
+
+<a class="back-link" href="{{ url_for('index') }}">← Back to Department</a>
+{% endblock %}

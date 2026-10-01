@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}{{ year.name }} | IT Department{% endblock %}
+{% block content %}
+<div class="breadcrumb"><a href="{{ url_for('index') }}">Home</a> / {{ year.name }}</div>
+
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">BSc IT</p>
+        <h1>{{ year.name }}</h1>
+        <p>Choose Teachers or Subjects to explore academic information.</p>
+    </div>
+</div>
+
+<div class="two-col">
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <span class="icon-circle">T</span>
+                <h2>Teachers</h2>
+            </div>
+            <span class="count">{{ teachers|length }}</span>
+        </div>
+        <div class="list">
+            {% for teacher in teachers %}
+            <a class="list-item" href="{{ url_for('teacher_detail', teacher_id=teacher.id) }}">
+                <span class="avatar">{{ teacher.name[0] }}</span>
+                <span>
+                    <strong>{{ teacher.name }}</strong>
+                    <small>{{ teacher.department }}</small>
+                </span>
+                <span class="chevron">›</span>
+            </a>
+            {% else %}
+            <p class="empty">No teachers found.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <span class="icon-circle">S</span>
+                <h2>Subjects</h2>
+            </div>
+            <span class="count">{{ subjects|length }}</span>
+        </div>
+        <div class="list">
+            {% for subject in subjects %}
+            <a class="list-item" href="{{ url_for('subject_detail', subject_id=subject.id) }}">
+                <span class="subject-icon">📚</span>
+                <span>
+                    <strong>{{ subject.name }}</strong>
+                    <small>{{ subject.subject_type }}</small>
+                </span>
+                <span class="chevron">›</span>
+            </a>
+            {% else %}
+            <p class="empty">No subjects have been added for this year yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<a class="back-link" href="{{ url_for('index') }}">← Back to Department</a>
+{% endblock %}

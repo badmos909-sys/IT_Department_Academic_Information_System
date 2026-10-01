@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Admin | IT Department{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">Management</p>
+        <h1>Admin Panel</h1>
+        <p>Add or remove teachers and subjects. Use Assignments to connect teachers with subjects.</p>
+    </div>
+    <a class="button" href="{{ url_for('assignments') }}">Manage Assignments</a>
+</div>
+
+<div class="admin-grid">
+    <section class="panel">
+        <div class="panel-head"><h2>Add Teacher</h2></div>
+        <form method="post" action="{{ url_for('add_teacher') }}" class="form">
+            <label>Name<input name="name" placeholder="Teacher name" required></label>
+            <label>Email<input name="email" type="email" placeholder="Optional"></label>
+            <label>Phone<input name="phone" placeholder="Optional"></label>
+            <button class="button" type="submit">Add Teacher</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <div class="panel-head"><h2>Add Subject</h2></div>
+        <form method="post" action="{{ url_for('add_subject') }}" class="form">
+            <label>Subject Name<input name="name" placeholder="e.g. Web Technology" required></label>
+            <label>Type
+                <select name="subject_type" required>
+                    <option value="Theory">Theory</option>
+                    <option value="Practical">Practical</option>
+                </select>
+            </label>
+            <label>Year
+                <select name="year_id" required>
+                    {% for y in years %}<option value="{{ y[0] }}">{{ y[1] }}</option>{% endfor %}
+                </select>
+            </label>
+            <button class="button" type="submit">Add Subject</button>
+        </form>
+    </section>
+</div>
+
+<div class="two-col">
+<section class="panel">
+    <div class="panel-head"><h2>Teachers</h2><span class="count">{{ teachers|length }}</span></div>
+    <div class="admin-list">
+    {% for teacher in teachers %}
+        <div class="admin-row">
+            <span>{{ teacher.name }}</span>
+            <form method="post" action="{{ url_for('delete_teacher', teacher_id=teacher.id) }}" onsubmit="return confirm('Delete this teacher?');">
+                <button class="danger-link" type="submit">Delete</button>
+            </form>
+        </div>
+    {% endfor %}
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-head"><h2>Subjects</h2><span class="count">{{ subjects|length }}</span></div>
+    <div class="admin-list">
+    {% for subject in subjects %}
+        <div class="admin-row">
+            <span><strong>{{ subject.name }}</strong><small>{{ subject.subject_type }} • {{ subject.year_name }}</small></span>
+            <form method="post" action="{{ url_for('delete_subject', subject_id=subject.id) }}" onsubmit="return confirm('Delete this subject?');">
+                <button class="danger-link" type="submit">Delete</button>
+            </form>
+        </div>
+    {% endfor %}
+    </div>
+</section>
+</div>
+{% endblock %}

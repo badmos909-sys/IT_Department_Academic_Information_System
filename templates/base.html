@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}IT Department Academic Information System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+    <div class="container nav">
+        <a class="brand" href="{{ url_for('index') }}">
+            <span class="brand-mark">IT</span>
+            <span>Information Technology<br><small>Academic Information System</small></span>
+        </a>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('admin') }}">Admin</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container main">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <div class="container">
+        <p>CEP / NEP 2020 Project • Information Technology Department</p>
+    </div>
+</footer>
+</body>
+</html>

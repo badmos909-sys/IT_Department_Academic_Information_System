@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Home | IT Department{% endblock %}
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">CEP / NEP 2020</p>
+        <h1>Information Technology Department</h1>
+        <p class="hero-text">
+            Academic information portal for BSc IT classes, teachers and subjects.
+            Select a year below to explore the department structure.
+        </p>
+    </div>
+</section>
+
+<div class="stats">
+    <div class="stat"><strong>{{ counts.teachers }}</strong><span>Teachers</span></div>
+    <div class="stat"><strong>{{ counts.subjects }}</strong><span>Subjects</span></div>
+    <div class="stat"><strong>3</strong><span>BSc IT Years</span></div>
+</div>
+
+<h2 class="section-title">Select Class</h2>
+<div class="year-grid">
+    {% for year in years %}
+    <a class="year-card" href="{{ url_for('year_page', year_id=year[0]) }}">
+        <span class="arrow">→</span>
+        <span class="year-number">{{ "%02d"|format(year[0]) }}</span>
+        <h3>{{ year[1] }}</h3>
+        <p>View teachers and subjects</p>
+    </a>
+    {% endfor %}
+</div>
+
+<section class="info-box">
+    <h2>About this project</h2>
+    <p>
+        This small local module organizes academic information for the
+        Information Technology Department. It demonstrates database-based
+        storage, class-wise navigation, teacher information and subject
+        information in a simple localhost application.
+    </p>
+    <a class="button secondary" href="{{ url_for('admin') }}">Open Admin</a>
+</section>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ subject.name }} | IT Department{% endblock %}
+{% block content %}
+<div class="breadcrumb"><a href="{{ url_for('index') }}">Home</a> / Subject</div>
+
+<section class="detail-hero">
+    <span class="subject-icon large">📚</span>
+    <div>
+        <p class="eyebrow">{{ subject.year_name }}</p>
+        <h1>{{ subject.name }}</h1>
+        <span class="badge">{{ subject.subject_type }}</span>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-head"><h2>Teachers</h2><span class="count">{{ teachers|length }}</span></div>
+    {% if teachers %}
+    <div class="list">
+        {% for teacher in teachers %}
+        <a class="list-item" href="{{ url_for('teacher_detail', teacher_id=teacher.id) }}">
+            <span class="avatar">{{ teacher.name[0] }}</span>
+            <span><strong>{{ teacher.name }}</strong><small>{{ teacher.department }}</small></span>
+            <span class="chevron">›</span>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty">No teacher has been assigned to this subject yet.</p>
+    {% endif %}
+</section>
+
+<a class="back-link" href="{{ url_for('year_page', year_id=subject.year_id) }}">← Back to {{ subject.year_name }}</a>
+{% endblock %}
